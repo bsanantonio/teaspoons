@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Teaspoons</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="enter_measurement">Value</string>
+    <string name="title_activity_unit_converter">UnitConverterActivity</string>
+</resources>

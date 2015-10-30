@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dry_liquid_array">
+        <item>Teaspoon</item>
+        <item>Tablespoon</item>
+        <item>Cup</item>
+        <item>Pint</item>
+        <item>Quart</item>
+        <item>Gallon</item>
+    </string-array>
+
+    <string-array name="liquid_array">
+        <item>Fluid oz</item>
+    </string-array>
+
+    <string-array name="weight_array">
+        <item>Ounce</item>
+        <item>Pound</item>
+        <item>Gram</item>
+        <item>Kilogram</item>
+    </string-array>
+</resources>
