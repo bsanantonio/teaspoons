@@ -4,4 +4,6 @@
 
     <string name="enter_measurement">Value</string>
     <string name="title_activity_unit_converter">UnitConverterActivity</string>
+    <string name="title_activity_timer">TimerActivity</string>
+    <string name="title_activity_new_timer">NewTimerActivity</string>
 </resources>

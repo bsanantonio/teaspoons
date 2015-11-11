@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:gravity="center"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer_label_text"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:gravity="center"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:weightSum="1.0">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0h 00m 00s"
+            android:id="@+id/timer_text"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="48sp"
+            android:layout_weight="0.8" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:id="@+id/timer_button_clear"
+            android:layout_weight="0.2"
+            android:src="@drawable/ic_clear"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:gravity="center"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:weightSum="0.3">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:id="@+id/timer_button_1"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:id="@+id/timer_button_2"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:id="@+id/timer_button_3"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:gravity="center"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:weightSum="0.3">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:id="@+id/timer_button_4"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:id="@+id/timer_button_5"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6"
+            android:id="@+id/timer_button_6"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:gravity="center"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:weightSum="0.3">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7"
+            android:id="@+id/timer_button_7"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8"
+            android:id="@+id/timer_button_8"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9"
+            android:id="@+id/timer_button_9"
+            android:layout_weight="0.1"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:gravity="center"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:weightSum="0.6">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/timer_button_0"
+            android:layout_weight="0.6"
+            android:textSize="32sp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/timer_button_save"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

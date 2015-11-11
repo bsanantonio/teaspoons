@@ -1,9 +1,8 @@
 package com.goodhousestudios.teaspoons;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -12,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +22,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -52,7 +49,6 @@ public class UnitConverterActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_unit_converter, menu);
@@ -65,6 +61,10 @@ public class UnitConverterActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.action_timers) {
+            Intent intent = new Intent(this, TimersActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
