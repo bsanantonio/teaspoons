@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,20 +41,28 @@ public class TimersActivity extends AppCompatActivity {
 
     private void checkIntent() {
         Intent intent = getIntent();
-        String label = intent.getStringExtra(NewTimerActivity.LABEL);
-        if (label == null || label.isEmpty()) {
-            label = "Label";
-        }
-        int time = intent.getIntExtra(NewTimerActivity.TIME, -1);
-        if (time != -1) {
+
+        String intentAction = intent.getStringExtra(NewTimerActivity.ACTION);
+        if (intentAction != null && intentAction.equals(NewTimerActivity.SAVE)) {
+            String label = intent.getStringExtra(NewTimerActivity.LABEL);
+            if (label == null || label.isEmpty()) {
+                label = "Label";
+            }
+            int time = intent.getIntExtra(NewTimerActivity.TIME, -1);
             int index = intent.getIntExtra(NewTimerActivity.INDEX, -1);
             if (index > -1) {
                 goodHouseApplication.goodHouseTimers.get(index).label = label;
                 goodHouseApplication.goodHouseTimers.get(index).startTime = time;
                 goodHouseApplication.goodHouseTimers.get(index).reset();
+            } else {
+                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(this, label, time));
             }
-            else {
-                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(label, time));
+            saveTimers();
+        }
+        else if (intentAction != null && intentAction.equals(NewTimerActivity.DELETE)) {
+            int index = intent.getIntExtra(NewTimerActivity.INDEX, -1);
+            if (index > -1) {
+                goodHouseApplication.goodHouseTimers.remove(index);
             }
             saveTimers();
         }
@@ -68,7 +75,7 @@ public class TimersActivity extends AppCompatActivity {
             for (int i = 0; i < labelCount; i++) {
                 String label = sharedPref.getString("timer_" + i + "_label", "Label");
                 String time = sharedPref.getString("timer_" + i + "_time", "0");
-                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(label, Long.parseLong(time)));
+                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(this, label, Long.parseLong(time)));
             }
         }
     }

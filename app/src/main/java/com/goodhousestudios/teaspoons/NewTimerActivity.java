@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 public class NewTimerActivity extends AppCompatActivity {
 
+    public static final String ACTION = "ACTION";
     public static final String INDEX = "INDEX";
     public static final String LABEL = "LABEL";
     public static final String TIME = "TIME";
     public static final String TIME_TEXT = "TIME_TEXT";
+    public static final String SAVE = "SAVE";
+    public static final String DELETE = "DELETE";
 
     private TextView labelText;
     private TextView timerText;
@@ -144,7 +147,18 @@ public class NewTimerActivity extends AppCompatActivity {
                 updateTimerText();
             }
         });
-        final Button buttonSave = (Button) findViewById(R.id.timer_button_save);
+        final ImageButton buttonDelete = (ImageButton) findViewById(R.id.timer_button_delete);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(NewTimerActivity.this, TimersActivity.class);
+                if (index > -1) {
+                    intent.putExtra(ACTION, DELETE);
+                    intent.putExtra(INDEX, index);
+                }
+                startActivity(intent);
+            }
+        });
+        final ImageButton buttonSave = (ImageButton) findViewById(R.id.timer_button_save);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(NewTimerActivity.this, TimersActivity.class);
@@ -152,6 +166,7 @@ public class NewTimerActivity extends AppCompatActivity {
                 int minutes = (time - seconds) / 100 % 100;
                 int hours = (time - seconds - minutes) / 10000 % 100;
                 time = seconds + minutes * 60 + hours * 60 * 60;
+                intent.putExtra(ACTION, SAVE);
                 intent.putExtra(TIME, time);
                 intent.putExtra(LABEL, labelText.getText().toString());
                 intent.putExtra(TIME_TEXT, timerText.getText().toString());

@@ -2,8 +2,12 @@ package com.goodhousestudios.teaspoons;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +58,12 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
-            holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.list_item_timer, parent, false);
-            holder.btnPlay = (ImageButton) convertView.findViewById(R.id.timer_button_play);
-            holder.btnLabel = (Button) convertView.findViewById(R.id.timer_label);
-            holder.tvTime = (TextView) convertView.findViewById(R.id.timer_time);
+            ImageButton btnPlay = (ImageButton) convertView.findViewById(R.id.timer_button_play);
+            ImageButton btnReset = (ImageButton) convertView.findViewById(R.id.timer_button_reset);
+            Button btnLabel = (Button) convertView.findViewById(R.id.timer_label);
+            TextView tvTime = (TextView) convertView.findViewById(R.id.timer_time);
+            holder = new ViewHolder(btnPlay, btnReset, btnLabel, tvTime);
             convertView.setTag(holder);
             synchronized (listHolders) {
                 listHolders.add(holder);
@@ -75,9 +80,18 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
     private class ViewHolder {
 
         ImageButton btnPlay;
+        ImageButton btnReset;
         Button btnLabel;
         TextView tvTime;
         GoodHouseTimer goodHouseTimer;
+
+        public ViewHolder(ImageButton btnPlay, ImageButton btnReset, Button btnLabel, TextView tvTime) {
+
+            this.btnPlay = btnPlay;
+            this.btnReset = btnReset;
+            this.btnLabel = btnLabel;
+            this.tvTime = tvTime;
+        }
 
         public void setData(GoodHouseTimer goodHouseTimer) {
             this.goodHouseTimer = goodHouseTimer;
@@ -89,8 +103,7 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
         public void updateTimeRemaining() {
             if (goodHouseTimer.isRunning) {
                 long difference = SystemClock.elapsedRealtime();
-                goodHouseTimer.time -= difference - goodHouseTimer.lastTick;
-                goodHouseTimer.lastTick = difference;
+                goodHouseTimer.update(difference);
             }
             int seconds = (int) Math.abs(goodHouseTimer.time / 1000) % 60;
             int minutes = (int) Math.abs((goodHouseTimer.time / (1000 * 60)) % 60);
@@ -102,33 +115,30 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
             }
         }
 
-        public void pause() {
-            goodHouseTimer.isRunning = false;
-        }
-
-        public void play() {
-            goodHouseTimer.isRunning = true;
-            goodHouseTimer.lastTick = SystemClock.elapsedRealtime();
-        }
-
         private void setupButton() {
             btnPlay.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (goodHouseTimer.isRunning) {
-                        pause();
+                        goodHouseTimer.pause();
                         btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
                     }
                     else {
-                        play();
+                        goodHouseTimer.play();
                         btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
                     }
+                }
+            });
+            btnReset.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
+                    goodHouseTimer.reset();
                 }
             });
 
             btnLabel.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (goodHouseTimer.isRunning) {
-                        pause();
+                        goodHouseTimer.pause();
                     }
                     GoodHouseApplication goodHouseApplication = (GoodHouseApplication) btnLabel.getContext().getApplicationContext();
                     int index = goodHouseApplication.goodHouseTimers.indexOf(goodHouseTimer);
