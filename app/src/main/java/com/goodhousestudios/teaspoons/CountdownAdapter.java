@@ -1,12 +1,14 @@
 package com.goodhousestudios.teaspoons;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -54,8 +56,8 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.list_item_timer, parent, false);
-            holder.button = (ImageButton) convertView.findViewById(R.id.timer_button_play);
-            holder.tvLabel = (TextView) convertView.findViewById(R.id.timer_label);
+            holder.btnPlay = (ImageButton) convertView.findViewById(R.id.timer_button_play);
+            holder.btnLabel = (Button) convertView.findViewById(R.id.timer_label);
             holder.tvTime = (TextView) convertView.findViewById(R.id.timer_time);
             convertView.setTag(holder);
             synchronized (listHolders) {
@@ -72,14 +74,14 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
 
     private class ViewHolder {
 
-        ImageButton button;
-        TextView tvLabel;
+        ImageButton btnPlay;
+        Button btnLabel;
         TextView tvTime;
         GoodHouseTimer goodHouseTimer;
 
         public void setData(GoodHouseTimer goodHouseTimer) {
             this.goodHouseTimer = goodHouseTimer;
-            tvLabel.setText(this.goodHouseTimer.label);
+            btnLabel.setText(this.goodHouseTimer.label);
             setupButton();
             updateTimeRemaining();
         }
@@ -110,16 +112,32 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
         }
 
         private void setupButton() {
-            button.setOnClickListener(new View.OnClickListener() {
+            btnPlay.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (goodHouseTimer.isRunning) {
                         pause();
-                        button.setImageResource(R.drawable.ic_play_circle_outline);
+                        btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
                     }
                     else {
                         play();
-                        button.setImageResource(R.drawable.ic_pause_circle_outline);
+                        btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
                     }
+                }
+            });
+
+            btnLabel.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (goodHouseTimer.isRunning) {
+                        pause();
+                    }
+                    GoodHouseApplication goodHouseApplication = (GoodHouseApplication) btnLabel.getContext().getApplicationContext();
+                    int index = goodHouseApplication.goodHouseTimers.indexOf(goodHouseTimer);
+                    Intent intent = new Intent(btnLabel.getContext(), NewTimerActivity.class);
+                    int time = (int) goodHouseTimer.startTime;
+                    intent.putExtra(NewTimerActivity.INDEX, index);
+                    intent.putExtra(NewTimerActivity.TIME, time);
+                    intent.putExtra(NewTimerActivity.LABEL, btnLabel.getText().toString());
+                    btnLabel.getContext().startActivity(intent);
                 }
             });
         }

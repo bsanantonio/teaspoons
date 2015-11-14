@@ -4,10 +4,13 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/timer_label_text"
-        android:layout_gravity="center_horizontal" />
+        android:ems="6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:gravity="center"
@@ -22,14 +25,13 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:textSize="48sp"
-            android:layout_weight="0.8" />
+            android:layout_weight="0.9" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:id="@+id/timer_button_clear"
-            android:layout_weight="0.2"
             android:src="@drawable/ic_clear"
             style="?android:attr/borderlessButtonStyle" />
     </LinearLayout>

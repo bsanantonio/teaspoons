@@ -4,6 +4,7 @@ public class GoodHouseTimer {
 
     Boolean isRunning;
     String label;
+    long startTime;
     long time;
     long lastTick;
 
@@ -11,7 +12,14 @@ public class GoodHouseTimer {
 
         isRunning = false;
         this.label = label;
-        this.time = time;
+        this.startTime = time;
+        this.time = time * 1000;
+        lastTick = 0;
+    }
+
+    public void reset() {
+        isRunning = false;
+        time = startTime * 1000;
         lastTick = 0;
     }
 }

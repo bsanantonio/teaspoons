@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 public class NewTimerActivity extends AppCompatActivity {
 
+    public static final String INDEX = "INDEX";
     public static final String LABEL = "LABEL";
     public static final String TIME = "TIME";
     public static final String TIME_TEXT = "TIME_TEXT";
@@ -18,6 +20,7 @@ public class NewTimerActivity extends AppCompatActivity {
     private TextView labelText;
     private TextView timerText;
     private int time;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,8 @@ public class NewTimerActivity extends AppCompatActivity {
 
         labelText = (TextView) findViewById(R.id.timer_label_text);
         timerText = (TextView) findViewById(R.id.timer_text);
+
+        checkIntent();
 
         final Button button1 = (Button) findViewById(R.id.timer_button_1);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +155,9 @@ public class NewTimerActivity extends AppCompatActivity {
                 intent.putExtra(TIME, time);
                 intent.putExtra(LABEL, labelText.getText().toString());
                 intent.putExtra(TIME_TEXT, timerText.getText().toString());
+                if (index > -1) {
+                    intent.putExtra(INDEX, index);
+                }
                 startActivity(intent);
             }
         });
@@ -161,6 +169,27 @@ public class NewTimerActivity extends AppCompatActivity {
                 updateTimerText();
             }
         });
+    }
+
+    private void checkIntent() {
+        Intent intent = getIntent();
+        String label = intent.getStringExtra(NewTimerActivity.LABEL);
+        if (label == null || label.isEmpty()) {
+            label = "Label";
+        }
+
+        index = intent.getIntExtra(NewTimerActivity.INDEX, -1);
+        if (index > -1) {
+
+            if (!label.equals("Label")) {
+                labelText.setText(label);
+            }
+            int tempTime = intent.getIntExtra(NewTimerActivity.TIME, -1);
+            if (tempTime > -1) {
+                time = tempTime;
+                updateTimerText();
+            }
+        }
     }
 
     private void updateTimerText() {
