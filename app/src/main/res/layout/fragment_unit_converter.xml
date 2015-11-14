@@ -19,6 +19,7 @@
         android:layout_below="@+id/start_spinner"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:hint="0"
         android:imeOptions="actionSend" />
 
     <Spinner
