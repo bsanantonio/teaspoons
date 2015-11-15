@@ -49,14 +49,16 @@ public class TimersActivity extends AppCompatActivity {
             if (label == null || label.isEmpty()) {
                 label = "Label";
             }
+            int readableTime = intent.getIntExtra(NewTimerActivity.READABLE_TIME, -1);
             int time = intent.getIntExtra(NewTimerActivity.TIME, -1);
             int index = intent.getIntExtra(NewTimerActivity.INDEX, -1);
             if (index > -1) {
                 goodHouseApplication.goodHouseTimers.get(index).label = label;
+                goodHouseApplication.goodHouseTimers.get(index).readableTime = readableTime;
                 goodHouseApplication.goodHouseTimers.get(index).startTime = time;
                 goodHouseApplication.goodHouseTimers.get(index).reset();
             } else {
-                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(this, label, time));
+                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(this, label, readableTime, time));
             }
             saveTimers();
         }
@@ -75,8 +77,9 @@ public class TimersActivity extends AppCompatActivity {
         if (goodHouseApplication.goodHouseTimers.size() == 0) {
             for (int i = 0; i < labelCount; i++) {
                 String label = sharedPref.getString("timer_" + i + "_label", "Label");
+                String readableTime = sharedPref.getString("timer_" + i + "_readable_time", "0");
                 String time = sharedPref.getString("timer_" + i + "_time", "0");
-                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(this, label, Long.parseLong(time)));
+                goodHouseApplication.goodHouseTimers.add(new GoodHouseTimer(this, label, Long.parseLong(readableTime), Long.parseLong(time)));
             }
         }
     }
@@ -89,6 +92,7 @@ public class TimersActivity extends AppCompatActivity {
         for (int i = 0; i < labelCount; i++) {
             GoodHouseTimer timer = goodHouseApplication.goodHouseTimers.get(i);
             editor.putString("timer_" + i + "_label", timer.label);
+            editor.putString("timer_" + i + "_readable_time", Long.toString(timer.readableTime));
             editor.putString("timer_" + i + "_time", Long.toString(timer.startTime));
         }
         editor.putInt("label_count", labelCount);

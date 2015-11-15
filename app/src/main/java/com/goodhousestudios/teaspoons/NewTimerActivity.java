@@ -15,6 +15,7 @@ public class NewTimerActivity extends AppCompatActivity {
     public static final String ACTION = "ACTION";
     public static final String INDEX = "INDEX";
     public static final String LABEL = "LABEL";
+    public static final String READABLE_TIME = "READABLE_TIME";
     public static final String TIME = "TIME";
     public static final String TIME_TEXT = "TIME_TEXT";
     public static final String SAVE = "SAVE";
@@ -162,11 +163,15 @@ public class NewTimerActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(NewTimerActivity.this, TimersActivity.class);
+                Log.i("New time before", "" + time);
+                int readableTime = time;
                 int seconds = time % 100;
                 int minutes = (time - seconds) / 100 % 100;
                 int hours = (time - seconds - minutes) / 10000 % 100;
                 time = seconds + minutes * 60 + hours * 60 * 60;
+                Log.i("New time before", "" + time);
                 intent.putExtra(ACTION, SAVE);
+                intent.putExtra(READABLE_TIME, readableTime);
                 intent.putExtra(TIME, time);
                 intent.putExtra(LABEL, labelText.getText().toString());
                 intent.putExtra(TIME_TEXT, timerText.getText().toString());
@@ -199,7 +204,7 @@ public class NewTimerActivity extends AppCompatActivity {
             if (!label.equals("Label")) {
                 labelText.setText(label);
             }
-            int tempTime = intent.getIntExtra(NewTimerActivity.TIME, -1);
+            int tempTime = intent.getIntExtra(NewTimerActivity.READABLE_TIME, -1);
             if (tempTime > -1) {
                 time = tempTime;
                 updateTimerText();

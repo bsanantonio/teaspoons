@@ -143,8 +143,10 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
                     GoodHouseApplication goodHouseApplication = (GoodHouseApplication) btnLabel.getContext().getApplicationContext();
                     int index = goodHouseApplication.goodHouseTimers.indexOf(goodHouseTimer);
                     Intent intent = new Intent(btnLabel.getContext(), NewTimerActivity.class);
+                    int readableTime = (int) goodHouseTimer.readableTime;
                     int time = (int) goodHouseTimer.startTime;
                     intent.putExtra(NewTimerActivity.INDEX, index);
+                    intent.putExtra(NewTimerActivity.READABLE_TIME, readableTime);
                     intent.putExtra(NewTimerActivity.TIME, time);
                     intent.putExtra(NewTimerActivity.LABEL, btnLabel.getText().toString());
                     btnLabel.getContext().startActivity(intent);

@@ -17,17 +17,19 @@ public class GoodHouseTimer {
 
     Boolean isRunning;
     String label;
+    long readableTime;
     long startTime;
     long time;
     long lastTick;
 
-    public GoodHouseTimer(Context context, String label, long time) {
+    public GoodHouseTimer(Context context, String label, long readableTime, long time) {
         this.context = context;
 
         alarmPlayed = false;
 
         isRunning = false;
         this.label = label;
+        this.readableTime = readableTime;
         this.startTime = time;
         this.time = time * 1000;
         lastTick = 0;
