@@ -1,5 +1,6 @@
 package com.goodhousestudios.teaspoons;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -104,9 +105,13 @@ public class TimersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_conversions) {
+        if (id == R.id.action_about) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.about_dialog).setTitle(R.string.action_about);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else if (id == R.id.action_conversions) {
             Intent intent = new Intent(this, UnitConverterActivity.class);
             startActivity(intent);
         }
