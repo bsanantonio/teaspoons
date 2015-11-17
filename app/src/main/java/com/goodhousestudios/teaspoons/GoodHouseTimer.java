@@ -4,8 +4,11 @@ import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GoodHouseTimer {
 
@@ -22,6 +25,16 @@ public class GoodHouseTimer {
     long time;
     long lastTick;
 
+    String timerText;
+
+    private Handler handler = new Handler();
+    private Runnable updateRemainingTimeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            update();
+        }
+    };
+
     public GoodHouseTimer(Context context, String label, long readableTime, long time) {
         this.context = context;
 
@@ -33,6 +46,7 @@ public class GoodHouseTimer {
         this.startTime = time;
         this.time = time * 1000;
         lastTick = 0;
+        timerText = null;
 
         try {
             notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -41,20 +55,43 @@ public class GoodHouseTimer {
         catch (Exception e) {
             e.printStackTrace();
         }
+        startUpdateTimer();
     }
 
-    public void update(long difference) {
-        time -= difference - lastTick;
-        lastTick = difference;
-        if (time < 0 && !alarmPlayed) {
-            try {
-                ringtone.play();
+    public void update() {
+        if (isRunning) {
+            long difference = SystemClock.elapsedRealtime();
+            time -= difference - lastTick;
+            lastTick = difference;
+            if (time < 0 && !alarmPlayed) {
+                try {
+                    ringtone.play();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                alarmPlayed = true;
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            alarmPlayed = true;
         }
+        int seconds = (int) Math.abs(time / 1000) % 60;
+        int minutes = (int) Math.abs((time / (1000 * 60)) % 60);
+        int hours = (int) Math.abs((time / (1000 * 60 * 60)) % 24);
+        if (time > 0) {
+            timerText = hours + "h " + minutes + "m " + seconds + "s";
+        } else {
+            timerText = "-" + hours + "h " + minutes + "m " + seconds + "s";
+        }
+
+    }
+
+    private void startUpdateTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(updateRemainingTimeRunnable);
+            }
+        }, 1000, 1000);
     }
 
     public void pause() {

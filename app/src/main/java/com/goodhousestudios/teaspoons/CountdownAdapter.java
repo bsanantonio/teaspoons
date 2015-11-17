@@ -25,13 +25,14 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
 
     private LayoutInflater inflater;
     private List<ViewHolder> listHolders;
+
     private Handler handler = new Handler();
     private Runnable updateRemainingTimeRunnable = new Runnable() {
         @Override
         public void run() {
             synchronized (listHolders) {
                 for (ViewHolder holder : listHolders) {
-                    holder.updateTimeRemaining();
+                    holder.updateTimerText();
                 }
             }
         }
@@ -41,8 +42,10 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
         super(context, 0, objects);
         inflater = LayoutInflater.from(context);
         listHolders = new ArrayList<>();
+
         startUpdateTimer();
     }
+
 
     private void startUpdateTimer() {
         Timer timer = new Timer();
@@ -53,6 +56,7 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
             }
         }, 1000, 1000);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -97,25 +101,21 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
             this.goodHouseTimer = goodHouseTimer;
             btnLabel.setText(this.goodHouseTimer.label);
             setupButton();
-            updateTimeRemaining();
+            updateTimerText();
         }
 
-        public void updateTimeRemaining() {
-            if (goodHouseTimer.isRunning) {
-                long difference = SystemClock.elapsedRealtime();
-                goodHouseTimer.update(difference);
-            }
-            int seconds = (int) Math.abs(goodHouseTimer.time / 1000) % 60;
-            int minutes = (int) Math.abs((goodHouseTimer.time / (1000 * 60)) % 60);
-            int hours = (int) Math.abs((goodHouseTimer.time / (1000 * 60 * 60)) % 24);
-            if (goodHouseTimer.time > 0) {
-                tvTime.setText(hours + "h " + minutes + "m " + seconds + "s");
-            } else {
-                tvTime.setText("-" + hours + "h " + minutes + "m " + seconds + "s");
-            }
+        public void updateTimerText() {
+            tvTime.setText(this.goodHouseTimer.timerText);
         }
 
         private void setupButton() {
+            if (goodHouseTimer.isRunning) {
+                btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
+            }
+            else {
+                btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
+            }
+
             btnPlay.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (goodHouseTimer.isRunning) {
