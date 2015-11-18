@@ -3,6 +3,7 @@ package com.goodhousestudios.teaspoons;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.PowerManager;
 import android.util.Log;
 
 import java.util.ArrayList;

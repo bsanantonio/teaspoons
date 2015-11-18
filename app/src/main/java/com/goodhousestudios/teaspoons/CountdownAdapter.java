@@ -124,6 +124,7 @@ public class CountdownAdapter extends ArrayAdapter<GoodHouseTimer> {
                     }
                     else {
                         goodHouseTimer.play();
+
                         btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
                     }
                 }

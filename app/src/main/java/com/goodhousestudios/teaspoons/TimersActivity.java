@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 public class TimersActivity extends AppCompatActivity {
 
+    public static final String APP_TAG = "TimersActivity";
+
     private ListView lvItems;
     private GoodHouseApplication goodHouseApplication;
 

@@ -5,6 +5,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.SystemClock;
 
 import java.util.Timer;
@@ -12,7 +13,7 @@ import java.util.TimerTask;
 
 public class GoodHouseTimer {
 
-    Context context;
+    TimersActivity context;
 
     Boolean alarmPlayed;
     Uri notification;
@@ -35,7 +36,7 @@ public class GoodHouseTimer {
         }
     };
 
-    public GoodHouseTimer(Context context, String label, long readableTime, long time) {
+    public GoodHouseTimer(TimersActivity context, String label, long readableTime, long time) {
         this.context = context;
 
         alarmPlayed = false;
@@ -65,6 +66,7 @@ public class GoodHouseTimer {
             lastTick = difference;
             if (time < 0 && !alarmPlayed) {
                 try {
+                    WakeLocker.acquire(context);
                     ringtone.play();
                 }
                 catch (Exception e) {
@@ -99,6 +101,7 @@ public class GoodHouseTimer {
         if (alarmPlayed) {
             try {
                 ringtone.stop();
+                WakeLocker.release();
             }
             catch (Exception e) {
                 e.printStackTrace();
